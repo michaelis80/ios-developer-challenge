@@ -16,27 +16,18 @@ class APIManager {
     
     let defaultSession = URLSession(configuration: .default)
     
-    //var dataTask: URLSessionDataTask?
-    
-//    func createURLWithString(date: NSDate) -> NSURL? {
-//        // TODO: implement
-//    }
-//
-//    func createURLWithComponents(offset: Int) -> NSURL? {
-//        // TODO: implement
-//    }
-    
+    // TODO: Request with offset, refactor duplicated code in the 2 functions
     
     func getComicBooks(offset: Int, completion: @escaping ([ComicBook])->Void) {
         if var urlComponents = URLComponents(string: API_URL) {
-            urlComponents.query = "ts=\(API_TS)&apikey=\(API_KEY)&hash=\(API_HASH)"
+            urlComponents.query = "ts=\(API_TS)&apikey=\(API_KEY)&hash=\(API_HASH)&offset=\(offset)"
     
             guard let url = urlComponents.url else { return }
 
             let dataTask = defaultSession.dataTask(with: url) { data, response, error in
                 if let error = error {
                     // TODO: Handle error
-                    print("DataTask error: " + error.localizedDescription + "\n")
+                    print("Error in dataTask: " + error.localizedDescription + "\n")
                 } else if let data = data,
                     let response = response as? HTTPURLResponse,
                     response.statusCode == 200 {
@@ -52,7 +43,6 @@ class APIManager {
                             }
                         }
                     }
-            
                     DispatchQueue.main.async {
                         completion(comics)
                     }
@@ -71,7 +61,7 @@ class APIManager {
             let dataTask = defaultSession.dataTask(with: url) { data, response, error in
                 if let error = error {
                     // TODO: Handle error
-                    print("DataTask error: " + error.localizedDescription + "\n")
+                    print("Error in dataTask: " + error.localizedDescription + "\n")
                 } else if let data = data,
                     let response = response as? HTTPURLResponse,
                     response.statusCode == 200 {

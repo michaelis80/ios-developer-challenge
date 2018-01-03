@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cGr-Xw-4Xw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LMR-h7-9ya">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,19 +15,19 @@
         <scene sceneID="Khq-Jv-fXb">
             <objects>
                 <collectionViewController id="LMR-h7-9ya" customClass="ComicsCollectionViewController" customModule="marvelComics" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="omi-D7-yuc">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="scrollableAxes" dataMode="prototypes" id="omi-D7-yuc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WV0-gA-Gwa">
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WV0-gA-Gwa">
                             <size key="itemSize" width="150" height="200"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="sectionInset" minX="30" minY="30" maxX="30" maxY="30"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ComicCell" id="mcx-gq-y6t" customClass="ComicCollectionViewCell" customModule="marvelComics" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                                <rect key="frame" x="30" y="30" width="150" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                     <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
@@ -58,23 +60,73 @@
             </objects>
             <point key="canvasLocation" x="1312.8" y="201.94902548725639"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="yQO-qV-ii0">
+        <!--Comic Detail View Controller-->
+        <scene sceneID="lWi-cn-rdz">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cGr-Xw-4Xw" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComicDetailViewController" id="TP3-88-aSn" customClass="ComicDetailViewController" customModule="marvelComics" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Xg3-c2-mo5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="61J-nE-MIh">
+                                <rect key="frame" x="0.0" y="64" width="375" height="301.5"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1l-Qv-EgG">
+                                <rect key="frame" x="16" y="392" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QiA-fr-czr">
+                                <rect key="frame" x="16" y="443" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="h1l-Qv-EgG" firstAttribute="leading" secondItem="dOy-OZ-kKM" secondAttribute="leading" constant="16" id="614-jG-n2C"/>
+                            <constraint firstItem="h1l-Qv-EgG" firstAttribute="top" secondItem="61J-nE-MIh" secondAttribute="bottom" constant="26.5" id="Gh3-0B-PbH"/>
+                            <constraint firstItem="QiA-fr-czr" firstAttribute="leading" secondItem="h1l-Qv-EgG" secondAttribute="leading" id="Rqt-ra-lLF"/>
+                            <constraint firstItem="61J-nE-MIh" firstAttribute="top" secondItem="dOy-OZ-kKM" secondAttribute="top" id="av1-Bk-mtb"/>
+                            <constraint firstItem="dOy-OZ-kKM" firstAttribute="trailing" secondItem="QiA-fr-czr" secondAttribute="trailing" constant="16" id="bhU-D1-Wol"/>
+                            <constraint firstItem="dOy-OZ-kKM" firstAttribute="trailing" secondItem="61J-nE-MIh" secondAttribute="trailing" id="eGG-O6-npD"/>
+                            <constraint firstItem="dOy-OZ-kKM" firstAttribute="trailing" secondItem="h1l-Qv-EgG" secondAttribute="trailing" constant="16" id="mJz-l8-a09"/>
+                            <constraint firstItem="61J-nE-MIh" firstAttribute="leading" secondItem="dOy-OZ-kKM" secondAttribute="leading" id="oM6-Ex-HL9"/>
+                            <constraint firstItem="61J-nE-MIh" firstAttribute="height" secondItem="dOy-OZ-kKM" secondAttribute="height" multiplier="0.5" id="qhk-9P-Zzm"/>
+                            <constraint firstItem="QiA-fr-czr" firstAttribute="top" secondItem="h1l-Qv-EgG" secondAttribute="bottom" constant="30" id="sJq-97-aY2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dOy-OZ-kKM"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="C5b-3s-PWf"/>
+                    <connections>
+                        <outlet property="comicImageView" destination="61J-nE-MIh" id="kYv-rq-k2M"/>
+                        <outlet property="descriptionLabel" destination="QiA-fr-czr" id="nxC-z2-o5N"/>
+                        <outlet property="titleLabel" destination="h1l-Qv-EgG" id="1OH-Er-8gp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6yH-WM-UwK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2790" y="209"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="LTP-ND-UHO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8W4-b5-t1D" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="W1d-po-6Rv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="STy-cq-n2w">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="LMR-h7-9ya" kind="relationship" relationship="rootViewController" id="WRZ-ot-wPG"/>
+                        <segue destination="TP3-88-aSn" kind="relationship" relationship="rootViewController" id="HLE-f0-0ka"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NDe-kb-vIS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Klf-Tt-EEk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="614.39999999999998" y="202.39880059970017"/>
+            <point key="canvasLocation" x="2049.5999999999999" y="209.59520239880061"/>
         </scene>
     </scenes>
 </document>

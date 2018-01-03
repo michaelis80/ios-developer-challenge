@@ -9,41 +9,33 @@
 import UIKit
 
 private let reuseIdentifier = "ComicCell"
+private let itemsPerRow: CGFloat = 2
+private let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
 
 class ComicsCollectionViewController: UICollectionViewController {
     
     var comics: [ComicBook] = []
+    var comicsCollectionViewModel: ComicsCollectionViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
         let apiManager = APIManager()
-        apiManager.getComicBooks(offset: 0, completion: gotComics)
+        comicsCollectionViewModel = ComicsCollectionViewModel(apiManager: apiManager)
+        comicsCollectionViewModel?.delegate = self
+        
+        self.collectionView?.backgroundView = UIImageView(image: UIImage(named: "starsbg"))
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
     
-    // MARK: Helper
-    func gotComics(comics:[ComicBook]){
-        self.comics = comics
-        self.collectionView?.reloadData()
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
+    
 
     // MARK: UICollectionViewDataSource
 
@@ -53,48 +45,69 @@ class ComicsCollectionViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.comics.count
+        guard let viewModel = comicsCollectionViewModel else {
+            return 0
+        }
+        return viewModel.getComicsCount() + 1
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ComicCollectionViewCell
+        
+        if(indexPath.row == comicsCollectionViewModel?.getComicsCount()) {
+            //TODO: Load new window
+            comicsCollectionViewModel?.loadNewComicsWindow()
+            return cell
+        }
     
         // Configure the cell
-        cell.setupCell(comic: self.comics[indexPath.row])
-        cell.backgroundColor = UIColor.gray
+        guard let comic = comicsCollectionViewModel?.getComicAtIndex(index: indexPath.row) else {
+            return cell
+        }
+        cell.setupCell(comic: comic, delegate: comicsCollectionViewModel)
     
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    // MARK: UICollectionViewDelegate
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let comic = comicsCollectionViewModel?.getComicAtIndex(index: indexPath.row), let detailVc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComicDetailViewController") as? ComicDetailViewController else {
+            return
+        }
+        detailVc.comic = comic
+        let navVC = UINavigationController(rootViewController: detailVc)
+        self.present(navVC, animated: true, completion: nil)
+        
     }
-    */
-
 }
+
+// MARK: UICollectionViewDelegateFlowLayout
+
+extension ComicsCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize{
+        
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let availableHeight = view.frame.height - CGFloat(paddingSpace)
+        let heightPerItem = availableHeight / itemsPerRow
+        
+        return CGSize(width: heightPerItem * 0.7, height: heightPerItem)
+    }
+    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
+    }
+}
+
+// MARK: ComicsCollectionViewModelDelegate
+
+extension ComicsCollectionViewController: ComicsCollectionViewModelDelegate {
+    func gotComics() {
+        self.collectionView?.reloadData()
+    }
+}
+
+
