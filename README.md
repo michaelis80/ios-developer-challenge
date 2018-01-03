@@ -1,4 +1,12 @@
-# Streetbees iOS developer challenge 
+# Streetbees iOS developer challenge - Forked
+
+### Install
+
+Install Carthage and run "carthage update --platform iOS" to install dependencies
+
+### Notes
+
+It is not 100% finished, only has a very initial version of the ComicDetailViewController and needs it has a bug in the comics loading part that needs to be fixed.
 
 ### Description
 Using the best API available on this side of the universe [https://developer.marvel.com/](https://developer.marvel.com/) make a simple master detail app that allows the user to scroll through all the comics ever released and view details for each comic.
